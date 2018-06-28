@@ -1,3 +1,15 @@
+if(process.env.NODE_ENV !== 'development' &&
+    process.env.NODE_ENV !== 'production')
+{
+    console.log('Please specify one of the following environments to run your server');
+    console.log('- development');
+    console.log('- production');
+    return;
+}
+
+config = require('config');
+
+
 const express = require("express");
 const morgan = require("morgan");
 const app = express();
@@ -8,10 +20,11 @@ const userModel = require("./models/user");
 const boom = require("boom")
 
 //port
-let port = process.env.PORT || 3000;
+let port = process.env.PORT || config.get("port");
 
 //database connection
-const url = "mongodb://root:budged09@ds219641.mlab.com:19641/ecommerce-dev";
+const url = config.get("mongoDatabaseSetting.host") + "/" + config.get("mongoDatabaseSetting.database");
+
 mongoose.connect(url, function(error){
     if(error) console.log(error)
     else console.log(`Database connected to ${url}`)

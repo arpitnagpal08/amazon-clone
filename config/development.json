@@ -1,0 +1,10 @@
+{
+    "port": 3000,
+
+    "mongoDatabaseSetting": {
+        "host": "mongodb://root:budged09@ds219641.mlab.com:19641",
+        "user": "root",
+        "password": "budged09",
+        "database": "ecommerce-dev"
+    }
+}

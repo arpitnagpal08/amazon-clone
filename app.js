@@ -23,14 +23,16 @@ const ejsMate = require("ejs-mate");
 const session = require('express-session');
 const cookieParser = require("cookie-parser")
 const flash = require("express-flash");
+const mongoStore = require("connect-mongo")(session)
+const passport = require("passport");
 
 const constant = require("./constants")
 
 //port
-let port = process.env.PORT || config.get("port");
+var port = process.env.PORT || config.get("port");
 
 //database connection
-const url = config.get("mongoDatabaseSetting.host") + "/" + config.get("mongoDatabaseSetting.database");
+var url = config.get("mongoDatabaseSetting.host") + "/" + config.get("mongoDatabaseSetting.database");
 
 mongoose.connect(url, function(error){
     if(error) console.log(error)
@@ -49,7 +51,8 @@ app.use(cookieParser());
 app.use(session({
     resave: constant.sessionMiddleware.RESAVE,
     saveUninitialized: constant.sessionMiddleware.SAVEUNINITIALIZED,
-    secret: constant.sessionMiddleware.SECRET
+    secret: constant.sessionMiddleware.SECRET,
+    store: new mongoStore({url: url, autoReconnect: constant.sessionMiddleware.AUTORECONNECT})
 }))
 app.use(flash())
 

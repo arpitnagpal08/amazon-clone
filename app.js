@@ -18,6 +18,13 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const userModel = require("./models/user");
 const boom = require("boom")
+const ejs = require("ejs");
+const ejsMate = require("ejs-mate");
+const session = require('express-session');
+const cookieParser = require("cookie-parser")
+const flash = require("express-flash");
+
+const constant = require("./constants")
 
 //port
 let port = process.env.PORT || config.get("port");
@@ -37,31 +44,28 @@ app.use(morgan("dev"));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
-//APIs
-app.get("/", (req, res) => {
-    res.send("Index Page")
-})
+//session and flash middleware
+app.use(cookieParser());
+app.use(session({
+    resave: constant.sessionMiddleware.RESAVE,
+    saveUninitialized: constant.sessionMiddleware.SAVEUNINITIALIZED,
+    secret: constant.sessionMiddleware.SECRET
+}))
+app.use(flash())
 
-//test router to check database connection
-app.post("/testConnect", function(req, res, next){
-    var user = new userModel();
+//ejs middleware
+app.engine("ejs", ejsMate);
+app.set("view engine", "ejs")
 
-    user.profile.name = req.body.name;
-    user.email = req.body.email;
-    user.password = req.body.password;
+//static files
+app.use(express.static(__dirname + "/public"))
 
-    user.save(function(error){
-        if(error) {
-            return boom.conflict(next("Email already registered"))
-        }
-        else{
-            res.json({
-                "name": req.body.name,
-                "email": req.body.email
-            })
-        }
-    })
-})
+//requiring main route
+var mainRoute = require("./routes/main");
+var userRoute = require("./routes/user");
+
+app.use(mainRoute)
+app.use(userRoute)
 
 
 //server

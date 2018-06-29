@@ -1,0 +1,34 @@
+<% layout("layout") -%>
+
+    <div class="row">
+        <div class="col-lg-6 offset-md-3 mt-5">
+
+            <% if(message.length > 0) { %>
+
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <%= message %>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+            <% } %>
+
+            <form action="" method="post" class="form">
+                <h1>
+                    Edit Profile
+                </h1>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control" name="name" value="<%= user.profile.name %>">
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea type="text" id="address" class="form-control" name="address"><%= user.address %></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Update</button>
+                <a href="/profile" class="btn btn-outline-danger">Cancel</a>
+
+            </form>
+        </div>
+    </div>

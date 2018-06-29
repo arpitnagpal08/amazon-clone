@@ -56,6 +56,9 @@ app.use(session({
 }))
 app.use(flash())
 
+app.use(passport.initialize());
+app.use(passport.session())
+
 //ejs middleware
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs")

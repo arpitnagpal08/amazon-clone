@@ -2,6 +2,8 @@ const router = require("express").Router();
 const userModel = require("../models/user")
 const boom = require("boom");
 const constants = require("../constants");
+const passport = require("passport");
+const passportConfig = require("./passport");
 
 router.get("/signup", function(req, res){
     res.render("accounts/signup", {
@@ -32,5 +34,26 @@ router.post("/signup", function(req, res, next){
     })
 })
 
+router.get("/login", function(req, res){
+    if(req.user) return res.redirect("/")
+    else{
+        res.render("accounts/login", {message: req.flash("loginMessage")})
+    }
+})
+
+router.post("/login", passport.authenticate("local-login", {
+    successRedirect: "/profile",
+    failureRedirect: "/login",
+    failureFlash: true
+}))
+
+router.get("/profile", function(req, res, cb){
+    userModel.findOne({_id: req.user._id}, function(error, user){
+        if(error) return cb(error)
+        res.render("accounts/profile", {
+            user: user
+        })
+    })
+})
 
 module.exports = router

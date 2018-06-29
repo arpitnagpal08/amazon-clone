@@ -1,5 +1,5 @@
 const passport = require("passport");
-const localStratergy = require("passport-local").Strategy();
+const localStratergy = require("passport-local").Strategy;
 const user = require("../models/user");
 const constants = require("../constants");
 
@@ -16,7 +16,7 @@ passport.deserializeUser(function(id, cb){
 
 
 //middleware
-passport.use("local-login", new localStorage({
+passport.use("local-login", new localStratergy({
     usernameField: constants.passportMiddleware.USERNAME_FIELD,
     passwordField: constants.passportMiddleware.PASSWORD_FIELD,
     passReqToCallback: constants.passportMiddleware.PASS_REQ_TO_CALLBACK
@@ -39,9 +39,9 @@ passport.use("local-login", new localStorage({
 
 
 //custom function to authenticate
-exports.isAuthenticated(function(req, res, callback){
+exports.isAuthenticated = function(req, res, callback){
     if(req.isAuthenticated()){
         return next()
     }
     res.redirect("/login")
-})
+}

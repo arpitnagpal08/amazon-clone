@@ -17,6 +17,7 @@ router.post("/signup", function(req, res, next){
     user.profile.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;
+    user.profile.image = user.gravatar();
 
     userModel.findOne({email: req.body.email} , function(error, exists){
         if(exists) {
@@ -27,7 +28,10 @@ router.post("/signup", function(req, res, next){
             user.save(function(err, user){
                 if(err) return boom.badRequest(constants.flash.SIGNUP_ERROR)
                 else {
-                    return res.redirect("/")
+                    req.logIn(user, function(error){
+                        if(error) return next(error)
+                        res.redirect("/profile")
+                    })
                 }
             })
         }
@@ -59,6 +63,25 @@ router.get("/profile", function(req, res, cb){
 router.get("/logout", function(req, res, cb){
     req.logout();
     res.redirect("/")
+})
+
+router.get("/edit_profile", function(req, res, callback){
+    res.render("accounts/edit_profile", {message: req.flash("success")})
+})
+
+router.post("/edit_profile", function(req, res, callback){
+
+    userModel.findOne({_id: req.user._id}, function(error, result){
+        if(error) return callback(error);
+        if(req.body.name) result.profile.name = req.body.name;
+        if(req.body.address) result.address = req.body.address;
+
+        result.save(function(error){
+            if(error) return callback(error);
+            req.flash("success", "Successfully edited your profile")
+            return res.redirect("/profile")
+        })
+    })
 })
 
 module.exports = router

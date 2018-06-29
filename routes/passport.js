@@ -25,7 +25,7 @@ passport.use("local-login", new localStratergy({
         if(error) return callback(error)
         
         if(!user){
-            return callback(null, false, req.flash("lognMessage", constants.flash.NO_USER))
+            return callback(null, false, req.flash("loginMessage", constants.flash.NO_USER))
         }
 
         if(!user.comparePassword(password)){

@@ -56,4 +56,9 @@ router.get("/profile", function(req, res, cb){
     })
 })
 
+router.get("/logout", function(req, res, cb){
+    req.logout();
+    res.redirect("/")
+})
+
 module.exports = router

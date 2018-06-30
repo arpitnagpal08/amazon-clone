@@ -3,12 +3,7 @@ const categoryModel = require("../models/category");
 const constants = require("../constants")
 
 router.get("/add_category", function(req, res, callback){
-    if(req.flash("error")){
-        res.render("admin/add_category", {message: req.flash("error"), color: "red"})
-    }
-    else{
-        res.render("admin/add_category", {message: req.flash("success"), color: "green"})
-    }
+    res.render("admin/add_category", {message: {success: req.flash("success"), error: req.flash("error")}})
 });
 
 router.post("/add_category", function(req, res, callback){

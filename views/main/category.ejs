@@ -1,0 +1,25 @@
+<% layout('layout') -%>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <% for(key in products) { %>
+        <div class="col-md-3">
+            <div class="card mb-4 box-shadow m-auto" style="width: 18rem">
+                <img class="card-img-top" src="<%= products[key].image %>" alt="<%= products[key].name %>">
+                <div class="card-body">
+                    <h3>
+                        <%= products[key].name %>
+                    </h3>
+                    <p class="card-text"><%= products[key].category.name %></p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <a href="<%= products[key]._id %>" class="btn btn-sm btn-outline-secondary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>

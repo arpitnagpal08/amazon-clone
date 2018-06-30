@@ -26,7 +26,9 @@ const flash = require("express-flash");
 const mongoStore = require("connect-mongo")(session)
 const passport = require("passport");
 
-const constant = require("./constants")
+const constant = require("./constants");
+
+const categorySchema = require("./models/category")
 
 //port
 var port = process.env.PORT || config.get("port");
@@ -64,6 +66,16 @@ app.use(function(req, res, cb){
     cb()
 })
 
+app.use(function(req, res, cb){
+    categorySchema.find({}, function(error, result){
+        if(error) cb(error)
+        else {
+            res.locals.categories = result
+            cb()
+        }
+    })
+})
+
 //ejs middleware
 app.engine("ejs", ejsMate);
 app.set("view engine", "ejs")
@@ -75,11 +87,12 @@ app.use(express.static(__dirname + "/public"))
 var mainRoute = require("./routes/main");
 var userRoute = require("./routes/user");
 var adminRoute = require("./routes/admin")
+var apiRoute = require("./api/api");
 
 app.use(mainRoute)
 app.use(userRoute)
 app.use(adminRoute)
-
+app.use("/api", apiRoute)
 
 //server
 app.listen(port, (err) => {

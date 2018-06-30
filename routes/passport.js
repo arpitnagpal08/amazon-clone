@@ -25,11 +25,11 @@ passport.use("local-login", new localStratergy({
         if(error) return callback(error)
         
         if(!user){
-            return callback(null, false, req.flash("loginMessage", constants.flash.NO_USER))
+            return callback(null, false, req.flash("loginMessage", constants.userFlashMessage.NO_USER))
         }
 
         if(!user.comparePassword(password)){
-            return callback(null, false, req.flash("loginMessage", constants.flash.WRONG_PASSWORD))
+            return callback(null, false, req.flash("loginMessage", constants.userFlashMessage.WRONG_PASSWORD))
         }
 
         return callback(null, user)

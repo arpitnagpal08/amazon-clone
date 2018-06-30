@@ -21,12 +21,12 @@ router.post("/signup", function(req, res, next){
 
     userModel.findOne({email: req.body.email} , function(error, exists){
         if(exists) {
-            req.flash("errors", constants.flash.EMAIL_ALREADY_EXISTS)
+            req.flash("errors", constants.userFlashMessage.EMAIL_ALREADY_EXISTS)
             return res.redirect("/signup")
         }
         else{
             user.save(function(err, user){
-                if(err) return boom.badRequest(constants.flash.SIGNUP_ERROR)
+                if(err) return boom.badRequest(constants.userFlashMessage.SIGNUP_ERROR)
                 else {
                     req.logIn(user, function(error){
                         if(error) return next(error)
@@ -78,7 +78,7 @@ router.post("/edit_profile", function(req, res, callback){
 
         result.save(function(error){
             if(error) return callback(error);
-            req.flash("success", "Successfully edited your profile")
+            req.flash("success", constants.userFlashMessage.PROFILE_SUCCSS)
             return res.redirect("/profile")
         })
     })

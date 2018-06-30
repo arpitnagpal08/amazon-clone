@@ -74,9 +74,11 @@ app.use(express.static(__dirname + "/public"))
 //requiring main route
 var mainRoute = require("./routes/main");
 var userRoute = require("./routes/user");
+var adminRoute = require("./routes/admin")
 
 app.use(mainRoute)
 app.use(userRoute)
+app.use(adminRoute)
 
 
 //server

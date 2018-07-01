@@ -23,4 +23,15 @@ router.get("/products/:id", (req, res, callback) => {
     })
 })
 
+router.get("/product/:id", (req, res, callback) => {
+    productSchema.findById({_id: req.params.id}, function(error, product){
+        if(error) callback(error)
+        else{
+            res.render("main/product", {
+                product: product
+            })
+        }
+    })
+})
+
 module.exports = router

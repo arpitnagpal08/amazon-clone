@@ -1,7 +1,7 @@
 <% layout('layout') -%>
 
 
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <% for(key in products) { %>
         <div class="col-md-3">
@@ -12,9 +12,10 @@
                         <%= products[key].name %>
                     </h3>
                     <p class="card-text"><%= products[key].category.name %></p>
+                    <p class="card-text text-muted"> <%= products[key].price %> </p>
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                            <a href="<%= products[key]._id %>" class="btn btn-sm btn-outline-secondary">View</a>
+                            <a href="/product/<%= products[key]._id %>" class="btn btn-sm btn-outline-secondary">View</a>
                         </div>
                     </div>
                 </div>

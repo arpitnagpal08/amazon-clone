@@ -1,6 +1,21 @@
 const router = require("express").Router();
 const productSchema = require("../models/product")
 
+var stream = productSchema.synchronize();
+var count = 0;
+
+stream.on("data", function(){
+    count++
+})
+
+stream.on("close", function(){
+    console.log("Indexed " + count + " documents");
+})
+
+stream.on("error", function(error){
+    console.log(error)
+})
+
 router.get("/", (req, res) => {
     res.render("main/home")
 })

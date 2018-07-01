@@ -6,5 +6,8 @@
         "user": "root",
         "password": "budged09",
         "database": "ecommerce-dev"
+    },
+    "mongoosastic": {
+        "hosts": "localhost:9200"
     }
 }

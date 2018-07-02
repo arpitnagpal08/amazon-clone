@@ -16,6 +16,28 @@ stream.on("error", function(error){
     console.log(error)
 })
 
+router.post("/search", function(req, res, callback){
+    res.redirect("/search?q=" + req.body.q)
+})
+
+router.get("/search", function(req, res, callback){
+    if(req.query.q){
+        productSchema.search({
+            query_string: {query: req.query.q}
+        }, function(error, result){
+            if(error) return callback(error)
+
+            var data = result.hits.hits.map(function(res){
+                return res
+            })
+            res.render("main/search_result.ejs", {
+                query: req.query.q,
+                data: data
+            })
+        })
+    }
+})
+
 router.get("/", (req, res) => {
     res.render("main/home")
 })

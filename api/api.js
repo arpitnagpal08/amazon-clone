@@ -4,6 +4,8 @@ var faker = require("faker");
 const categorySchema = require("../models/category");
 const productSchema = require("../models/product");
 
+const constants = require("../constants")
+
 router.get("/:name", function(req, res, callback){
     var tasks = [];
     var name = req.params.name;
@@ -14,15 +16,17 @@ router.get("/:name", function(req, res, callback){
     async.waterfall(tasks, function(err, result){
         if(err) callback(error)
         else {
-            res.json({result})
-            callback(null, result)
+            res.json(constants.adminFlashMessage.SUCCESSFULLY_ADDED_PRODUCT)
+            callback()
         }
     })
 
     function getCategoryByName(name, cb){
         categorySchema.findOne({name: name }, function(error, response){
             if(error) callback(error)
-            else cb(null, response)
+            else {
+                cb(null, response)
+            }
         })
     }
 
@@ -36,7 +40,6 @@ router.get("/:name", function(req, res, callback){
         product.save()
         cb()
     }
-
 })
 
 module.exports = router;

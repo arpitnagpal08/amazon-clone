@@ -15,7 +15,8 @@ exports.userFlashMessage = {
 
 exports.adminFlashMessage = {
     SUCCESSFULLY_ADDED_CATEGORY: "Successfully added category",
-    ALREADY_EXISTS: "Category already exists"
+    ALREADY_EXISTS: "Category already exists",
+    SUCCESSFULLY_ADDED_PRODUCT: "Successfully added products"
 }
 
 exports.passportMiddleware = {

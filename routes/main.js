@@ -4,6 +4,28 @@ const productSchema = require("../models/product")
 var stream = productSchema.synchronize();
 var count = 0;
 
+function paginate(req,res, callback){
+    var perPage = 6;
+    var page = req.params.page;
+
+    productSchema
+        .find()
+        .skip( perPage * page )
+        .limit(perPage)
+        .populate("category")
+        .exec(function(err, response){
+            if(err) return callback(err)
+            productSchema.count().exec(function(err, count){
+                if(err) callback(err)
+                res.render("main/product_main", {
+                    products: response,
+                    pages: count / perPage,
+                    currentPage: req.params.page
+                })
+            })
+        })
+}
+
 stream.on("data", function(){
     count++
 })
@@ -38,8 +60,17 @@ router.get("/search", function(req, res, callback){
     }
 })
 
-router.get("/", (req, res) => {
-    res.render("main/home")
+router.get("/", (req, res, callback) => {
+    if(req.user){
+        paginate(req, res, callback)
+    }
+    else{
+        res.render("main/home")
+    }
+})
+
+router.get("/page/:page", (req, res, callback) => {
+    paginate(req, res, callback)
 })
 
 router.get("/about", (req, res) => {
@@ -70,5 +101,6 @@ router.get("/product/:id", (req, res, callback) => {
         }
     })
 })
+
 
 module.exports = router

@@ -1,0 +1,63 @@
+<% layout('layout') -%>
+
+
+<section class="jumbotron text-center">
+    <div class="container">
+        <h1 class="jumbotron-heading">
+            Shop Smart, Save Big!
+        </h1>
+        <p class="lead text-muted">
+            Find your favorite product
+        </p>
+        <!-- <p>
+            <a href="/signup" class="btn btn-outline-primary my-2">Signup <i class="fas fa-user fa-rotate"></i></a>
+            <a href="/login" class="btn btn-link my-2" style="text-decoration: none">Login <i class="fas fa-sign-in-alt"></i></a>
+        </p> -->
+        
+    </div>
+</section>
+
+<div class="container-fluid">
+        <div class="row">
+            <% for(key in products) { %>
+            <div class="col-md-4 mt-4">
+                <div class="card box-shadow m-auto">
+                    <img class="card-img-top" src="<%= products[key].image %>" alt="<%= products[key].name %>">
+                    <div class="card-body">
+                        <h3>
+                            <%= products[key].name %>
+                        </h3>
+                        <p class="card-text"><%= products[key].category.name %></p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <a href="/product/<%= products[key]._id %>" class="btn btn-sm btn-outline-secondary">View</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+        </div>
+        <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <% for(let keys = 1; keys <= pages; keys++) { %>
+
+                        <% if(keys === 1 && keys == currentPage) { %>
+                            <li class="page-item active">
+                                <a class="page-link" href="/"><%= keys %></a>
+                            </li>
+                        <% } else if (keys == currentPage && keys > 1) { %>
+                            <li class="page-item active">
+                                <a class="page-link" href="/page/<%= keys %>"><%= keys %></a>
+                            </li>
+                        <% } else { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/page/<%= keys %>"><%= keys %></a>
+                            </li>
+
+                        <% } %>
+                    <% } %>
+
+                </ul>
+            </nav>
+    </div>

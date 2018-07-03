@@ -27,6 +27,7 @@ const mongoStore = require("connect-mongo")(session)
 const passport = require("passport");
 
 const constant = require("./constants");
+const middlerware = require("./routes/middlewares")
 
 const categorySchema = require("./models/category")
 
@@ -65,6 +66,8 @@ app.use(function(req, res, cb){
     res.locals.user = req.user;
     cb()
 })
+
+app.use(middlerware);
 
 app.use(function(req, res, cb){
     categorySchema.find({}, function(error, result){

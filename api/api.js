@@ -42,4 +42,19 @@ router.get("/:name", function(req, res, callback){
     }
 })
 
+router.post("/search", function(req, res, callback){
+    console.log(req.body.search_item)
+    productSchema.search({
+        query_string: {
+            query: req.body.search_item
+        }
+    }, function(error, result){
+        if(error) callback(error)
+        else{
+            res.json(result)
+        }
+    })
+})
+
+
 module.exports = router;

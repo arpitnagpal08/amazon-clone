@@ -4,21 +4,25 @@
 <section class="jumbotron text-center">
     <div class="container">
         <h1 class="jumbotron-heading">
-            Shop Smart, Save Big!
+            Find your favorite product
         </h1>
         <p class="lead text-muted">
-            Find your favorite product
+            Search mnay of Ecommerce's products
         </p>
-        <!-- <p>
-            <a href="/signup" class="btn btn-outline-primary my-2">Signup <i class="fas fa-user fa-rotate"></i></a>
-            <a href="/login" class="btn btn-link my-2" style="text-decoration: none">Login <i class="fas fa-sign-in-alt"></i></a>
-        </p> -->
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="search" name="search_item" placeholder="Search for a product..">
+                    <button type="submit" class="btn btn-secondary input-group-append">Search</button>
+                </div>
+            </div>
+        </div>
         
     </div>
 </section>
 
 <div class="container-fluid">
-        <div class="row">
+        <div class="row" id="searchResults">
             <% for(key in products) { %>
             <div class="col-md-4 mt-4">
                 <div class="card box-shadow m-auto">
